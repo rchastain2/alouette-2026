@@ -1,12 +1,9 @@
 
-program Fact2;
-{
-uses
-  SysUtils;
-}
+program SquareNamesArray;
+
 function SquareName(const i: integer): string;
 begin
-  result := Chr(i mod 8 + Ord('A')) + Chr(i div 8 + Ord('1'));
+  result := Chr(i mod 8 + Ord('a')) + Chr(i div 8 + Ord('1'));
 end;
 
 var

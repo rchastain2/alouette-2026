@@ -13,10 +13,25 @@ const
   CKings       = %0001000000000000000000000000000000000000000000000000000000010000;
 
 var
-  LBrd: uint64;
+  LBrd: Int64;
   
 begin
 { Le roi et les cavaliers blancs. }
   LBrd := CWhitePieces and (CKnights or CKings);
   PrintBoard(LBrd);
 end.
+
+{
+  +   abcdefgh   +
+
+  8   00000000   8
+  7   00000000   7
+  6   00000000   6
+  5   00000000   5
+  4   00000000   4
+  3   00000000   3
+  2   00000000   2
+  1   01001010   1
+
+  +   abcdefgh   +
+}

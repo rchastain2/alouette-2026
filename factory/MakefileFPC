@@ -4,6 +4,7 @@ TARGETS := $(SOURCES:%.pas=%)
 
 PC := fpc
 PFLAGS := -Mobjfpc -Sh
+PFLAGS += -Fu..
 
 #$(info PFLAGS: $(PFLAGS))
 
@@ -11,6 +12,7 @@ all: $(TARGETS)
 
 %: %.pas
 	@$(PC) $< $(PFLAGS)
+	@./$@ > ../$@.inc
 
 clean:
 	@rm -fv *.o *.ppu

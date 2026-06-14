@@ -1,1 +1,6 @@
+
 *.sh
+
+*bitcount.pas
+example??.pas
+*.fen
