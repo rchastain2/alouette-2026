@@ -2,12 +2,12 @@
 program SquaresByIndex;
 
 uses
-  SysUtils;
-
-function ToBoard(const AIdx: integer): int64;
-begin
-  result := int64(1) shl AIdx;
-end;
+{$IFDEF FPC}
+  SysUtils,
+{$ELSE}
+  MissingFunction,
+{$ENDIF}
+  Board;
 
 var
   i: integer;

@@ -24,13 +24,17 @@ type
   TMoveTypeSet = set of TMoveType;
 
 const
-  CSquareNames: array[A1..H8] of string[2]     = ({$I squarenamesarray.inc});
+{$IFDEF FPC}
+  CSquareNames: array[A1..H8] of string        = ({$I squarenamesarray.inc});
   CIndexToSquare: array[A1..H8] of Int64       = ({$I squaresbyindex.inc});
   CCoordToSquare: array[0..7, 0..7] of Int64   = ({$I squaresbycoordinates.inc});
   CPaths: array[A1..H8, A1..H8] of Int64       = ({$I paths.inc});
   CColumns: array[0..7] of Int64               = ({$I columns.inc});
   CWhiteSquares: Int64                         = ({$I whitesquares.inc});
   CTargets: array[TPieceType, A1..H8] of Int64 = ({$I targets.inc});
+{$ELSE}
+  {$I constants.inc}
+{$ENDIF}
 
 {** Pour savoir si une case est allumée dans un damier. }
 function Is1(const ABrd, ASqr: Int64): boolean;

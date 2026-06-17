@@ -2,7 +2,7 @@
 SOURCES := $(wildcard *.pas)
 TARGETS := $(SOURCES:%.pas=%)
 
-BLAISEDIR := ~/Documents/pascal/sources/blaise/
+BLAISEDIR := ~/opt/blaise/
 
 BLAISE  := $(BLAISEDIR)compiler/target/blaise
 RUNTIME := $(BLAISEDIR)runtime/src/main/pascal
@@ -25,6 +25,7 @@ all: $(TARGETS)
 	@qbe -o $@.s $@.ssa
 	@printf "Generating %s\n" $@
 	@gcc -o $@ $@.s $(BLAISE)_rtl.a
+	@./$@ > $@.inc
 
 clean:
 	@rm -fv *.s *.ssa

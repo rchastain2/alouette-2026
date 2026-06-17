@@ -2,17 +2,12 @@
 program SquaresByCoordinates;
 
 uses
-  SysUtils;
-
-function ToBoard(const AIdx: integer): int64;
-begin
-  result := int64(1) shl AIdx;
-end;
-
-function ToIndex(const ACol, ARow: integer): integer;
-begin
-  result := 8 * ARow + ACol;
-end;
+{$IFDEF FPC}
+  SysUtils,
+{$ELSE}
+  MissingFunction,
+{$ENDIF}
+  Board;
 
 var
   x, y: integer;

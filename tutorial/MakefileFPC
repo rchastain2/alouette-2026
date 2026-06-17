@@ -4,6 +4,7 @@ TARGETS := $(SOURCES:%.pas=%)
 
 PC := fpc
 PFLAGS := -Mobjfpc -Sh
+PFLAGS += -Fu..
 
 #$(info PFLAGS: $(PFLAGS))
 

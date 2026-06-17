@@ -2,7 +2,7 @@
 SOURCES := $(wildcard *.pas)
 TARGETS := $(SOURCES:%.pas=%)
 
-BLAISEDIR := ~/Documents/pascal/sources/blaise/
+BLAISEDIR := ~/opt/blaise/
 
 BLAISE  := $(BLAISEDIR)compiler/target/blaise
 RUNTIME := $(BLAISEDIR)runtime/src/main/pascal
@@ -12,6 +12,7 @@ PC := $(BLAISE)
 PFLAGS := --unit-path $(shell pwd)
 PFLAGS += --unit-path $(RUNTIME)
 PFLAGS += --unit-path $(STDLIB)
+PFLAGS += --unit-path ..
 PFLAGS += --emit-ir
 
 #$(info PFLAGS: $(PFLAGS))
