@@ -79,7 +79,7 @@ begin
   case APiece of
     ptWhitePawn: result := (dy = 1) and (ax = 1);
     ptBlackPawn: result := (dy = -1) and (ax = 1);
-    ptRook:      result := (dx = 0) xor (dy = 0);
+    ptRook:      result := {(dx = 0) xor (dy = 0)}((dx = 0) and (dy <> 0)) or ((dx <> 0) and (dy = 0));
     ptKnight:    result := ax * ay = 2;
     ptBishop:    result := (dx <> 0) and (ax = ay);
     ptQueen:     result := IsPossible(ptRook, AX1, AY1, AX2, AY2) or IsPossible(ptBishop, AX1, AY1, AX2, AY2);

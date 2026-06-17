@@ -4,9 +4,12 @@ TARGETS := $(SOURCES:%.pas=%)
 
 BLAISEDIR := ~/opt/blaise/
 
-BLAISE  := $(BLAISEDIR)compiler/target/blaise
+#BLAISE  := $(BLAISEDIR)compiler/target/blaise
 RUNTIME := $(BLAISEDIR)runtime/src/main/pascal
 STDLIB  := $(BLAISEDIR)stdlib/src/main/pascal
+
+BLAISE := ~/apps/blaise/27705201859/blaise
+# https://github.com/graemeg/blaise/actions/runs/27705201859
 
 PC := $(BLAISE)
 PFLAGS := --unit-path $(shell pwd)
@@ -25,7 +28,7 @@ all: $(TARGETS)
 	@qbe -o $@.s $@.ssa
 	@printf "Generating %s\n" $@
 	@gcc -o $@ $@.s $(BLAISE)_rtl.a
-	@./$@ > $@.inc
+	@./$@ > ../$@.inc
 
 clean:
 	@rm -fv *.s *.ssa
