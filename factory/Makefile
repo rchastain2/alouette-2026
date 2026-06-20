@@ -28,7 +28,7 @@ all: $(TARGETS)
 	@qbe -o $@.s $@.ssa
 	@printf "Generating %s\n" $@
 	@gcc -o $@ $@.s $(BLAISE)_rtl.a
-	@./$@ > ../$@.inc
+	@./$@ > $@.inc
 
 clean:
 	@rm -fv *.s *.ssa

@@ -1,6 +1,6 @@
 
-*.inc
 *.o
 *.ppu
 
-constants1.pas
+*.s
+*.ssa

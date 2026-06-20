@@ -11,7 +11,7 @@ all: $(TARGETS)
 
 %: %.pas
 	@$(PC) $< $(PFLAGS)
-	@./$@ > ../$@.inc
+	@./$@ > $@.inc
 
 clean:
 	@rm -fv *.o *.ppu
