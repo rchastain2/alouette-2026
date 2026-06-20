@@ -4,7 +4,7 @@ unit Constants;
 interface
 
 uses
-  Types;
+  ChessTypes;
 
 const
   CWhiteSquares: Int64 = $55AA55AA55AA55AA;

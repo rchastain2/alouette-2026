@@ -1,5 +1,5 @@
 
-unit Types;
+unit ChessTypes;
 
 interface
 
