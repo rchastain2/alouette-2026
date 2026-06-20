@@ -15,7 +15,7 @@ var
 begin
   for x := 0 to 7 do
   begin
-    Write('(');
+    Write('  (');
     for y := 0 to 7 do
     begin
       Write('$', IntToHex(ToBoard(ToIndex(x, y))));

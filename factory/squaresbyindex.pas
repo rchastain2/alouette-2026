@@ -15,10 +15,12 @@ var
 begin
   for i := 0 to 63 do
   begin
-    Write('$', IntToHex(ToBoard(i)));
+    if (i + 1) mod 8 = 1 then
+      Write(' ');
+    Write(' $', IntToHex(ToBoard(i)));
     if i < 63 then
-      WriteLn(',')
-    else
+      Write(',');
+    if (i + 1) mod 8 = 0 then
       WriteLn();
   end;
 end.

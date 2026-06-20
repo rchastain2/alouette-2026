@@ -18,7 +18,7 @@ begin
   for x := 0 to 7 do
     for y := 0 to 7 do
       if (x + y) mod 2 = 1 then
-        SetBitTo1(LBoard, {CCoordToSquare[x, y]}ToBoard(ToIndex(x, y)));
+        SwitchOn(LBoard, ToBoard(ToIndex(x, y)));
   
-  WriteLn(' $', IntToHex(LBoard));
+  Write('$', IntToHex(LBoard));
 end.

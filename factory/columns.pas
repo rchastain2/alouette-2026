@@ -18,8 +18,8 @@ begin
   begin
     LBoard := 0;
     for y := 0 to 7 do
-      SetBitTo1(LBoard, ToBoard(ToIndex(x, y)){CCoordToSquare[x, y]});
-    Write(' $', IntToHex(LBoard));
+      SwitchOn(LBoard, ToBoard(ToIndex(x, y)));
+    Write('  $', IntToHex(LBoard));
     if x < 7 then
       WriteLn(',')
     else

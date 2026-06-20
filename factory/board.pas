@@ -8,9 +8,9 @@ type
 
 function ToBoard(const AIdx: integer): int64;
 function ToIndex(const ACol, ARow: integer): integer;
-function Is1(const ABrd, ASqr: Int64): boolean;
-procedure SetBitTo1(var ABrd: Int64; const ASqr: Int64);
-procedure SetBitTo0(var ABrd: Int64; const ASqr: Int64);
+function IsOn(const ABrd, ASqr: Int64): boolean;
+procedure SwitchOn(var ABrd: Int64; const ASqr: Int64);
+procedure SwitchOff(var ABrd: Int64; const ASqr: Int64);
 function GetPath(const AFr, ATo: integer): int64;
 function IsPossible(const APiece: TPieceType; const AX1, AY1, AX2, AY2: integer): boolean;
 function GetTargets(const APiece: TPieceType; const AIdx: integer): int64;
@@ -27,17 +27,17 @@ begin
   result := 8 * ARow + ACol;
 end;
 
-function Is1(const ABrd, ASqr: Int64): boolean;
+function IsOn(const ABrd, ASqr: Int64): boolean;
 begin
   result := (ABrd and ASqr) = ASqr;
 end;
 
-procedure SetBitTo1(var ABrd: Int64; const ASqr: Int64);
+procedure SwitchOn(var ABrd: Int64; const ASqr: Int64);
 begin
   ABrd := ABrd or ASqr;
 end;
 
-procedure SetBitTo0(var ABrd: Int64; const ASqr: Int64);
+procedure SwitchOff(var ABrd: Int64; const ASqr: Int64);
 begin
   ABrd := ABrd and not ASqr;
 end;
@@ -53,8 +53,7 @@ begin
   y2 := ATo div 8;
   dx := x2 - x1;
   dy := y2 - y1;
-  if ((dx <> 0) or (dy <> 0))
-  and (((dx = 0) or (dy = 0)) or (Abs(dx) = Abs(dy))) then
+  if ((dx <> 0) or (dy <> 0)) and (((dx = 0) or (dy = 0)) or (Abs(dx) = Abs(dy))) then
   begin
     if dx <> 0 then dx := dx div Abs(dx);
     if dy <> 0 then dy := dy div Abs(dy);
@@ -79,7 +78,7 @@ begin
   case APiece of
     ptWhitePawn: result := (dy = 1) and (ax = 1);
     ptBlackPawn: result := (dy = -1) and (ax = 1);
-    ptRook:      result := {(dx = 0) xor (dy = 0)}((dx = 0) and (dy <> 0)) or ((dx <> 0) and (dy = 0));
+    ptRook:      result := (dx = 0) xor (dy = 0);
     ptKnight:    result := ax * ay = 2;
     ptBishop:    result := (dx <> 0) and (ax = ay);
     ptQueen:     result := IsPossible(ptRook, AX1, AY1, AX2, AY2) or IsPossible(ptBishop, AX1, AY1, AX2, AY2);
@@ -97,7 +96,7 @@ begin
   for y2 := 7 downto 0 do
     for x2 := 0 to 7 do
       if IsPossible(APiece, x1, y1, x2, y2) then
-        SetBitTo1(result, ToBoard(ToIndex(x2, y2)){CCoordToSquare[x2, y2]});
+        SwitchOn(result, ToBoard(ToIndex(x2, y2)));
 end;
 
 end. 

@@ -1,6 +1,6 @@
 
 uses
-  Board;
+  Board, Constants, Types;
 
 begin
 { Cases pouvant être atteintes par une tour se trouvant en B2. }

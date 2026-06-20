@@ -1,4 +1,5 @@
 
 *.o
 *.ppu
-*.sh
+
+constants1.pas

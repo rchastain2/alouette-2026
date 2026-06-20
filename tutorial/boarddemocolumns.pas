@@ -2,7 +2,7 @@
 program BoardDemoColumns;
 
 uses
-  Board;
+  Board, Constants;
 
 var
   LBrd: Int64;

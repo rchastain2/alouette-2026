@@ -8,8 +8,8 @@ BLAISEDIR := ~/opt/blaise/
 RUNTIME := $(BLAISEDIR)runtime/src/main/pascal
 STDLIB  := $(BLAISEDIR)stdlib/src/main/pascal
 
-BLAISE := ~/apps/blaise/27705201859/blaise
-# https://github.com/graemeg/blaise/actions/runs/27705201859
+BLAISE := ~/apps/blaise/27756430533/blaise
+# https://github.com/graemeg/blaise/actions/runs/27756430533
 
 PC := $(BLAISE)
 PFLAGS := --unit-path $(shell pwd)

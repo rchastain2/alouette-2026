@@ -12,7 +12,9 @@ var
 begin
   for i := 0 to 63 do
   begin
-    if i mod 8 <> 0 then
+    if i mod 8 = 0 then
+      Write('  ')
+    else
       Write(' ');
     Write('''', SquareName(i), '''');
     if i < 63 then

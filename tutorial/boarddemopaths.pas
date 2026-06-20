@@ -1,6 +1,6 @@
 
 uses
-  Board;
+  Board, Constants, Types;
 
 begin
 { Cases à traverser pour aller d'une case à une autre. }

@@ -10,25 +10,28 @@ uses
   Board;
   
 var
-  x, y: integer;
+  x, y, i: integer;
   LType: TPieceType;
   LBoard: int64;
   
 begin
   for LType := Low(TPieceType) to High(TPieceType) do
   begin
-    WriteLn('(');
+    WriteLn('  (');
     for y := 0 to 7 do
       for x := 0 to 7 do
       begin
-        LBoard := GetTargets(LType, 8 * y + x);
+        i := ToIndex(x, y);
+        LBoard := GetTargets(LType, i);
+        if (x = 0) or (x = 4) then
+          Write('   ');
         Write(' $', IntToHex(LBoard));
-        if 8 * y + x < 63 then
+        if i < 63 then
           Write(',');
         if (x = 7) or (x = 3) then
           WriteLn();
       end;
-    Write(')');
+    Write('  )');
     if LType < ptKing then
       WriteLn(',')
     else

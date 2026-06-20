@@ -2,10 +2,11 @@
 program BoardDemoWhiteSquares;
 
 uses
-  Board;
+  Board, Constants;
 
 begin
   PrintBoard(CWhiteSquares);
+  PrintBoard(not CWhiteSquares);
 end.
 
 {
@@ -19,6 +20,18 @@ end.
   3   01010101   3
   2   10101010   2
   1   01010101   1
+
+  +   abcdefgh   +
+  +   abcdefgh   +
+
+  8   01010101   8
+  7   10101010   7
+  6   01010101   6
+  5   10101010   5
+  4   01010101   4
+  3   10101010   3
+  2   01010101   2
+  1   10101010   1
 
   +   abcdefgh   +
 }

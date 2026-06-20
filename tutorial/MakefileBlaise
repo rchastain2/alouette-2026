@@ -2,11 +2,17 @@
 SOURCES := $(wildcard *.pas)
 TARGETS := $(SOURCES:%.pas=%)
 
-BLAISEDIR := ~/opt/blaise/
+#BLAISEDIR := ~/opt/blaise/
+BLAISEDIR := ~/Documents/pascal/sources/blaise/
 
-BLAISE  := $(BLAISEDIR)compiler/target/blaise
+#BLAISE  := $(BLAISEDIR)compiler/target/blaise
 RUNTIME := $(BLAISEDIR)runtime/src/main/pascal
 STDLIB  := $(BLAISEDIR)stdlib/src/main/pascal
+
+BLAISE := ~/apps/blaise/27768328708/blaise
+# https://github.com/graemeg/blaise/actions/runs/27768328708
+
+#BLAISE := ~/apps/blaise/0_11_0/blaise
 
 PC := $(BLAISE)
 PFLAGS := --unit-path $(shell pwd)

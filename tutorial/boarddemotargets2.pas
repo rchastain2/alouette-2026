@@ -1,6 +1,6 @@
 
 uses
-  TypInfo, Board;
+  TypInfo, Board, Constants, Types;
 
 var
   LType: TPieceType;
