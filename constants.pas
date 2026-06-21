@@ -1,4 +1,7 @@
-
+{**
+  @abstract(Échiquier binaire.)
+  Représentation d'un échiquier par une variable de 64 chiffres binaires.
+}
 unit Constants;
 
 interface

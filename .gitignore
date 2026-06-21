@@ -4,3 +4,5 @@
 
 *.s
 *.ssa
+
+html-doc/
