@@ -13,13 +13,15 @@ begin
   for i := 0 to 63 do
   begin
     if i mod 8 = 0 then
-      Write('  ')
+      Write('    ')
     else
       Write(' ');
     Write('''', SquareName(i), '''');
     if i < 63 then
+    begin
       Write(',');
-    if i mod 8 = 7 then
-      WriteLn();
+      if i mod 8 = 7 then
+        WriteLn();
+    end;
   end;
 end.

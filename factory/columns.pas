@@ -19,10 +19,8 @@ begin
     LBoard := 0;
     for y := 0 to 7 do
       SwitchOn(LBoard, ToBoard(ToIndex(x, y)));
-    Write('  $', IntToHex(LBoard));
+    Write('    $', IntToHex(LBoard));
     if x < 7 then
-      WriteLn(',')
-    else
-      WriteLn();
+      WriteLn(',');
   end;
 end.

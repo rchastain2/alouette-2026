@@ -1,5 +1,5 @@
 
-SOURCES := $(wildcard *.pas)
+SOURCES := $(filter-out board.pas constants.pas missingfunction.pas,$(wildcard *.pas))
 TARGETS := $(SOURCES:%.pas=%)
 
 PC := fpc

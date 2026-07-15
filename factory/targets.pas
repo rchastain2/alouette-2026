@@ -17,24 +17,22 @@ var
 begin
   for LType := Low(TPieceType) to High(TPieceType) do
   begin
-    WriteLn('  (');
+    WriteLn('    (');
     for y := 0 to 7 do
       for x := 0 to 7 do
       begin
         i := ToIndex(x, y);
         LBoard := GetTargets(LType, i);
         if (x = 0) or (x = 4) then
-          Write('   ');
+          Write('     ');
         Write(' $', IntToHex(LBoard));
         if i < 63 then
           Write(',');
         if (x = 7) or (x = 3) then
           WriteLn();
       end;
-    Write('  )');
+    Write('    )');
     if LType < ptKing then
-      WriteLn(',')
-    else
-     WriteLn();
+      WriteLn(',');
   end;
 end. 
