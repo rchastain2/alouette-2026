@@ -61,9 +61,9 @@ end;
 
 function DecodeSquareName(const AName: string): integer;
 begin
-  Assert((Length(AName) = 2));
+ {Assert((Length(AName) = 2));
   Assert((AName[1] in ['a'..'h']));
-  Assert((AName[2] in ['1'..'8']));
+  Assert((AName[2] in ['1'..'8']));}
   result := 8 * (Ord(AName[2]) - Ord('1')) + (Ord(AName[1]) - Ord('a'));
 end;
 

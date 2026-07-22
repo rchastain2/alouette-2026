@@ -18,7 +18,9 @@ const
 
 type
   {** Type de pièce, incluant la valeur néant. }
-  TPieceType = (ptNil, ptWhitePawn, ptBlackPawn, ptRook, ptKnight, ptBishop, ptQueen, ptKing);
+  TPieceTypeWide = (ptNil, ptWhitePawn, ptBlackPawn, ptRook, ptKnight, ptBishop, ptQueen, ptKing);
+  {** Type de pièce. }
+  TPieceType = ptWhitePawn..ptKing;
   {** Type de coup. }
   TMoveType = (mtCapture, mtCastling, mtEnPassant, mtPromotion, mtPromotionKnight, mtPromotionBishop, mtPromotionRook);
   {** }

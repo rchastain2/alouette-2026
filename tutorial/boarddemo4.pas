@@ -1,6 +1,8 @@
 
+program BoardDemoPaths;
+
 uses
-  Board, Constants, Types;
+  Board, Constants, ChessTypes;
 
 begin
 { Cases à traverser pour aller d'une case à une autre. }

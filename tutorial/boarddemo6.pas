@@ -1,15 +1,24 @@
 
+program BoardDemoTargets2;
+
 uses
-  TypInfo, Board, Constants, Types;
+{$IFDEF FPC}
+  TypInfo,
+{$ENDIF}
+  Board, Constants, ChessTypes;
 
 var
   LType: TPieceType;
   
 begin
-{ Cases pouvant être atteintes par une pièce se trouvant en B2, pour tous les types de pièce. }
-  for LType in TPieceType do
+{ Cases pouvant être atteintes par une pièce se trouvant en E2, pour tous les types de pièce. }
+  for LType := Low(TPieceType) to High(TPieceType) do
   begin
+{$IFDEF FPC}
     WriteLn(GetEnumName(TypeInfo(TPieceType), Ord(LType)));
+{$ELSE}
+    WriteLn(LType);
+{$ENDIF}
     PrintBoard(CTargets[LType, E2]);
   end;
 end.

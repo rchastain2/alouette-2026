@@ -1,6 +1,8 @@
 
+program BoardDemoTargets;
+
 uses
-  Board, Constants, Types;
+  Board, Constants, ChessTypes;
 
 begin
 { Cases pouvant être atteintes par une tour se trouvant en B2. }

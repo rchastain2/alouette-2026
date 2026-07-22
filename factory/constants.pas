@@ -25,7 +25,7 @@ const
 {$I squaresbycoordinates.inc}
   );
   
-  CTargets: array[ptWhitePawn..ptKing, A1..H8] of Int64 = (
+  CTargets: array[TPieceType, A1..H8] of Int64 = (
 {$I targets.inc}
   );
   

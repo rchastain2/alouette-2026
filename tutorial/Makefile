@@ -10,7 +10,7 @@ BLAISE  := $(BLAISEDIR)compiler/target/blaise
 
 PC := $(BLAISE)
 PFLAGS := --unit-path $(shell pwd)
-PFLAGS += --unit-path $(RUNTIME)
+#PFLAGS += --rtl-src $(RUNTIME)
 PFLAGS += --unit-path $(STDLIB)
 PFLAGS += --unit-path ..
 ifdef NATIVE
@@ -36,8 +36,9 @@ else
 	@printf "Generating %s\n" $@
 	@gcc -o $@ $@.s $(BLAISE)_rtl.a
 endif
+
 clean:
-	@rm -fv *.s *.ssa
+	@rm -fv *.s *.ssa *.o
 
 distclean: clean
 	@rm -fv $(TARGETS)

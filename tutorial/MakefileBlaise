@@ -6,15 +6,11 @@ BLAISEDIR := $(HOME)/apps/blaise/git/
 
 RUNTIME := $(BLAISEDIR)runtime/src/main/pascal
 STDLIB  := $(BLAISEDIR)stdlib/src/main/pascal
-
 BLAISE  := $(BLAISEDIR)compiler/target/blaise
-#BLAISE := ~/apps/blaise/27768328708/blaise
-#BLAISE := ~/apps/blaise/0_11_0/blaise
-# https://github.com/graemeg/blaise/actions
 
 PC := $(BLAISE)
 PFLAGS := --unit-path $(shell pwd)
-PFLAGS += --unit-path $(RUNTIME)
+#PFLAGS += --rtl-src $(RUNTIME)
 PFLAGS += --unit-path $(STDLIB)
 PFLAGS += --unit-path ..
 ifdef NATIVE
@@ -40,8 +36,9 @@ else
 	@printf "Generating %s\n" $@
 	@gcc -o $@ $@.s $(BLAISE)_rtl.a
 endif
+
 clean:
-	@rm -fv *.s *.ssa
+	@rm -fv *.s *.ssa *.o
 
 distclean: clean
 	@rm -fv $(TARGETS)
