@@ -23,12 +23,12 @@ begin
       begin
         i := ToIndex(x, y);
         LBoard := GetTargets(LType, i);
-        if (x = 0) or (x = 4) then
+        if x = 0 then
           Write('     ');
         Write(' $', IntToHex(LBoard));
         if i < 63 then
           Write(',');
-        if (x = 7) or (x = 3) then
+        if x = 7 then
           WriteLn();
       end;
     Write('    )');

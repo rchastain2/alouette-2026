@@ -62,7 +62,7 @@ begin
       Inc(y1, dy);
       if (x1 <> x2)
       or (y1 <> y2) then
-        result := result or {CCoordToSquare[x1, y1]}(ToBoard(ToIndex(x1, y1)));
+        result := result or (ToBoard(ToIndex(x1, y1)));
     until (x1 = x2) and (y1 = y2);
   end;
 end;

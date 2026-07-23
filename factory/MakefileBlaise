@@ -40,4 +40,4 @@ clean:
 	@rm -fv *.s *.ssa *.o
 
 distclean: clean
-	@rm -fv $(TARGETS)
+	@rm -fv $(TARGETS) *.inc

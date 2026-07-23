@@ -1,2 +1,7 @@
 
 *.inc
+*.log
+
+blaise-native/
+blaise-qbe/
+fpc/
