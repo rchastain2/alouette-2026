@@ -11,7 +11,7 @@ uses
   
 var
   x, y: integer;
-  LBoard: int64;
+  LBoard: Int64;
   
 begin
   LBoard := 0;

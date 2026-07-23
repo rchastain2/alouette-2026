@@ -12,7 +12,7 @@ uses
 var
   x, y, i: integer;
   LType: TPieceType;
-  LBoard: int64;
+  LBoard: Int64;
   
 begin
   for LType := Low(TPieceType) to High(TPieceType) do

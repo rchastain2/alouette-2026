@@ -6,20 +6,20 @@ interface
 type
   TPieceType = (ptWhitePawn, ptBlackPawn, ptRook, ptKnight, ptBishop, ptQueen, ptKing);
 
-function ToBoard(const AIdx: integer): int64;
+function ToBoard(const AIdx: integer): Int64;
 function ToIndex(const ACol, ARow: integer): integer;
 function IsOn(const ABrd, ASqr: Int64): boolean;
 procedure SwitchOn(var ABrd: Int64; const ASqr: Int64);
 procedure SwitchOff(var ABrd: Int64; const ASqr: Int64);
-function GetPath(const AFr, ATo: integer): int64;
+function GetPath(const AFr, ATo: integer): Int64;
 function IsPossible(const APiece: TPieceType; const AX1, AY1, AX2, AY2: integer): boolean;
-function GetTargets(const APiece: TPieceType; const AIdx: integer): int64;
+function GetTargets(const APiece: TPieceType; const AIdx: integer): Int64;
 
 implementation
 
-function ToBoard(const AIdx: integer): int64;
+function ToBoard(const AIdx: integer): Int64;
 begin
-  result := int64(1) shl AIdx;
+  result := Int64(1) shl AIdx;
 end;
 
 function ToIndex(const ACol, ARow: integer): integer;
@@ -42,7 +42,7 @@ begin
   ABrd := ABrd and not ASqr;
 end;
 
-function GetPath(const AFr, ATo: integer): int64;
+function GetPath(const AFr, ATo: integer): Int64;
 var
   x1, y1, x2, y2, dx, dy: integer;
 begin
@@ -86,7 +86,7 @@ begin
   end;
 end;
 
-function GetTargets(const APiece: TPieceType; const AIdx: integer): int64;
+function GetTargets(const APiece: TPieceType; const AIdx: integer): Int64;
 var
   x1, y1, x2, y2: integer;
 begin

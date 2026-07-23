@@ -11,7 +11,7 @@ uses
 
 var
   LFrom, LTo: integer;
-  LBoard: int64;
+  LBoard: Int64;
   
 begin
   for LFrom := 0 to 63 do
