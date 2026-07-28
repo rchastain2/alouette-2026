@@ -1,5 +1,3 @@
-PREPROC=/home/roland/apps/pasdoc/1_0_4/bin/pascal_pre_proc
 
+pascal_pre_proc constants.pas > ../constants.pas
 # https://pasdoc.github.io/OtherTools#_-pascal_pre_proc
-
-$PREPROC constants.pas > ../constants.pas
