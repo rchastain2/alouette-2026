@@ -1,6 +1,6 @@
 # Factory
 
-Programs for code source building. 
+Programs building code source. 
 
 ## Demo
 
@@ -9,40 +9,40 @@ Build and run all programs, to generate bitboards.
 ```
 $ make
 [INFO] Compiling columns.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source columns.pas --output columns --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
+blaise --source columns.pas --output columns --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing columns
 ./columns > columns.inc
 [INFO] Compiling paths.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source paths.pas --output paths --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
+blaise --source paths.pas --output paths --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing paths
 ./paths > paths.inc
 [INFO] Compiling squarenamesarray.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source squarenamesarray.pas --output squarenamesarray --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
+blaise --source squarenamesarray.pas --output squarenamesarray --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing squarenamesarray
 ./squarenamesarray > squarenamesarray.inc
 [INFO] Compiling squarenames.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source squarenames.pas --output squarenames --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
+blaise --source squarenames.pas --output squarenames --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing squarenames
 ./squarenames > squarenames.inc
 [INFO] Compiling squaresbycoordinates.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source squaresbycoordinates.pas --output squaresbycoordinates --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
+blaise --source squaresbycoordinates.pas --output squaresbycoordinates --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing squaresbycoordinates
 ./squaresbycoordinates > squaresbycoordinates.inc
 [INFO] Compiling squaresbyindex.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source squaresbyindex.pas --output squaresbyindex --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
+blaise --source squaresbyindex.pas --output squaresbyindex --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing squaresbyindex
 ./squaresbyindex > squaresbyindex.inc
 [INFO] Compiling targets.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source targets.pas --output targets --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
+blaise --source targets.pas --output targets --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing targets
 ./targets > targets.inc
 [INFO] Compiling whitesquares.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source whitesquares.pas --output whitesquares --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
+blaise --source whitesquares.pas --output whitesquares --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing whitesquares
 ./whitesquares > whitesquares.inc
 ```
 
-Run script preprocess.sh, to create *constants.pas* unit.
+Run *preprocess.sh* script, to create *constants.pas* unit.
 
 ```bash
 sh preprocess.sh
@@ -117,12 +117,12 @@ const
     ),
 ```
 
-Go to *tutorial* directory and build a demo program.
+Go to *tutorial* directory and build a demo program using the unit.
 
 ```
 $ cd ../tutorial && make boarddemo5
 Compiling boarddemo5.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source boarddemo5.pas --output boarddemo5 --unit-path ..
+blaise --source boarddemo5.pas --output boarddemo5 --unit-path ..
 $ ./boarddemo5
 +   abcdefgh   +
 
@@ -138,14 +138,13 @@ $ ./boarddemo5
 +   abcdefgh   +
 ```
 
-The *boarddemo5* program shows the squares reachable by a rook being on B2.
+The program shows the squares reachable by a rook being on B2.
 
 ```pascal
 uses
   Board, Constants, ChessTypes;
 
 begin
-{ Cases pouvant être atteintes par une tour se trouvant en B2. }
   PrintBoard(CTargets[ptRook, B2]);
 end.
 ```
