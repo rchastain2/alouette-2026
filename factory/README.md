@@ -42,11 +42,21 @@ blaise --source whitesquares.pas --output whitesquares --unit-path /home/roland/
 ./whitesquares > whitesquares.inc
 ```
 
+If needed, you can specify the path to compiler as follows:
+
+```
+$ make PC=/path/to/blaise
+```
+
 Run *preprocess.sh* script, to create *constants.pas* unit.
 
 ```bash
 sh preprocess.sh
 ```
+
+(The script calls [a tool](https://pasdoc.github.io/OtherTools#_-pascal_pre_proc) shipped with PasDoc. You have to install that tool and to provide a path to the tool in the script.)
+
+The unit is created in project main directory.
 
 ```pascal
 
