@@ -4,51 +4,52 @@ Programs for code source building.
 
 ## Demo
 
-Generate constant bitboards in INC files.
+Build and run all programs, to generate bitboards.
 
 ```
-$ make NATIVE=1
+$ make
 [INFO] Compiling columns.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source columns.pas --output columns --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory --unit-path /home/roland/apps/blaise/git/stdlib/src/main/pascal --backend native
+/home/roland/apps/blaise/git/compiler/target/blaise --source columns.pas --output columns --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing columns
 ./columns > columns.inc
 [INFO] Compiling paths.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source paths.pas --output paths --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory --unit-path /home/roland/apps/blaise/git/stdlib/src/main/pascal --backend native
+/home/roland/apps/blaise/git/compiler/target/blaise --source paths.pas --output paths --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing paths
 ./paths > paths.inc
 [INFO] Compiling squarenamesarray.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source squarenamesarray.pas --output squarenamesarray --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory --unit-path /home/roland/apps/blaise/git/stdlib/src/main/pascal --backend native
+/home/roland/apps/blaise/git/compiler/target/blaise --source squarenamesarray.pas --output squarenamesarray --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing squarenamesarray
 ./squarenamesarray > squarenamesarray.inc
 [INFO] Compiling squarenames.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source squarenames.pas --output squarenames --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory --unit-path /home/roland/apps/blaise/git/stdlib/src/main/pascal --backend native
+/home/roland/apps/blaise/git/compiler/target/blaise --source squarenames.pas --output squarenames --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing squarenames
 ./squarenames > squarenames.inc
 [INFO] Compiling squaresbycoordinates.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source squaresbycoordinates.pas --output squaresbycoordinates --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory --unit-path /home/roland/apps/blaise/git/stdlib/src/main/pascal --backend native
+/home/roland/apps/blaise/git/compiler/target/blaise --source squaresbycoordinates.pas --output squaresbycoordinates --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing squaresbycoordinates
 ./squaresbycoordinates > squaresbycoordinates.inc
 [INFO] Compiling squaresbyindex.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source squaresbyindex.pas --output squaresbyindex --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory --unit-path /home/roland/apps/blaise/git/stdlib/src/main/pascal --backend native
+/home/roland/apps/blaise/git/compiler/target/blaise --source squaresbyindex.pas --output squaresbyindex --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing squaresbyindex
 ./squaresbyindex > squaresbyindex.inc
 [INFO] Compiling targets.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source targets.pas --output targets --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory --unit-path /home/roland/apps/blaise/git/stdlib/src/main/pascal --backend native
+/home/roland/apps/blaise/git/compiler/target/blaise --source targets.pas --output targets --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing targets
 ./targets > targets.inc
 [INFO] Compiling whitesquares.pas
-/home/roland/apps/blaise/git/compiler/target/blaise --source whitesquares.pas --output whitesquares --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory --unit-path /home/roland/apps/blaise/git/stdlib/src/main/pascal --backend native
+/home/roland/apps/blaise/git/compiler/target/blaise --source whitesquares.pas --output whitesquares --unit-path /home/roland/Documents/pascal/echecs/alouette/2026/factory
 [INFO] Executing whitesquares
 ./whitesquares > whitesquares.inc
 ```
 
-Create unit *constants.pas*.
+Run script preprocess.sh, to create *constants.pas* unit.
 
 ```bash
 sh preprocess.sh
 ```
 
 ```pascal
+
 unit Constants;
 
 interface
@@ -67,7 +68,7 @@ const
     $1010101010101010,
     $2020202020202020,
     $4040404040404040,
-    $0000000000000000
+    $8080808080808080
   );
   
   CSquareNames: array[A1..H8] of string = (
@@ -89,7 +90,7 @@ const
     $0000000100000000, $0000000200000000, $0000000400000000, $0000000800000000, $0000001000000000, $0000002000000000, $0000004000000000, $0000008000000000,
     $0000010000000000, $0000020000000000, $0000040000000000, $0000080000000000, $0000100000000000, $0000200000000000, $0000400000000000, $0000800000000000,
     $0001000000000000, $0002000000000000, $0004000000000000, $0008000000000000, $0010000000000000, $0020000000000000, $0040000000000000, $0080000000000000,
-    $0100000000000000, $0200000000000000, $0400000000000000, $0800000000000000, $1000000000000000, $2000000000000000, $4000000000000000, $0000000000000000
+    $0100000000000000, $0200000000000000, $0400000000000000, $0800000000000000, $1000000000000000, $2000000000000000, $4000000000000000, $8000000000000000
   );
   
   CCoordToSquare: array[0..7, 0..7] of Int64 = (
@@ -100,7 +101,7 @@ const
     ($0000000000000010, $0000000000001000, $0000000000100000, $0000000010000000, $0000001000000000, $0000100000000000, $0010000000000000, $1000000000000000),
     ($0000000000000020, $0000000000002000, $0000000000200000, $0000000020000000, $0000002000000000, $0000200000000000, $0020000000000000, $2000000000000000),
     ($0000000000000040, $0000000000004000, $0000000000400000, $0000000040000000, $0000004000000000, $0000400000000000, $0040000000000000, $4000000000000000),
-    ($0000000000000080, $0000000000008000, $0000000000800000, $0000000080000000, $0000008000000000, $0000800000000000, $0080000000000000, $0000000000000000)
+    ($0000000000000080, $0000000000008000, $0000000000800000, $0000000080000000, $0000008000000000, $0000800000000000, $0080000000000000, $8000000000000000)
   );
   
   CTargets: array[TPieceType, A1..H8] of Int64 = (
@@ -111,7 +112,7 @@ const
       $0000000200000000, $0000000500000000, $0000000A00000000, $0000001400000000, $0000002800000000, $0000005000000000, $000000A000000000, $0000004000000000,
       $0000020000000000, $0000050000000000, $00000A0000000000, $0000140000000000, $0000280000000000, $0000500000000000, $0000A00000000000, $0000400000000000,
       $0002000000000000, $0005000000000000, $000A000000000000, $0014000000000000, $0028000000000000, $0050000000000000, $00A0000000000000, $0040000000000000,
-      $0200000000000000, $0500000000000000, $0A00000000000000, $1400000000000000, $2800000000000000, $5000000000000000, $0000000000000000, $4000000000000000,
+      $0200000000000000, $0500000000000000, $0A00000000000000, $1400000000000000, $2800000000000000, $5000000000000000, $A000000000000000, $4000000000000000,
       $0000000000000000, $0000000000000000, $0000000000000000, $0000000000000000, $0000000000000000, $0000000000000000, $0000000000000000, $0000000000000000
     ),
 ```
@@ -119,12 +120,13 @@ const
 Go to *tutorial* directory and build a demo program.
 
 ```
-$ cd ../tutorial && make boarddemo5 NATIVE=1
-
+$ cd ../tutorial && make boarddemo5
+Compiling boarddemo5.pas
+/home/roland/apps/blaise/git/compiler/target/blaise --source boarddemo5.pas --output boarddemo5 --unit-path ..
 $ ./boarddemo5
 +   abcdefgh   +
 
-8   01000001   8
+8   01000000   8
 7   01000000   7
 6   01000000   6
 5   01000000   5
@@ -133,5 +135,17 @@ $ ./boarddemo5
 2   10111111   2
 1   01000000   1
 
-+   abcdefgh   + 
++   abcdefgh   +
+```
+
+The *boarddemo5* program shows the squares reachable by a rook being on B2.
+
+```pascal
+uses
+  Board, Constants, ChessTypes;
+
+begin
+{ Cases pouvant être atteintes par une tour se trouvant en B2. }
+  PrintBoard(CTargets[ptRook, B2]);
+end.
 ```
