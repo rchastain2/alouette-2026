@@ -40,7 +40,8 @@ type
     EnPassant: integer;
     KingSquare: array[boolean] of Int64;
   end;
-  
+
+{
 const
   CNewPos: TPosition = (
     Pieces: (0, 0);
@@ -58,6 +59,10 @@ const
     EnPassant: CNil;
     KingSquare: (0, 0)
   );
+}
+
+type
+  TCastlingRow = array[boolean] of integer;
 
 const
   CStartPos = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -';
@@ -68,7 +73,7 @@ const
   CColG = 6;
   CRow1 = 0;
   CRow8 = 7;
-  CCastlingRow: array[boolean] of integer = (CRow1, CRow8);
+  CCastlingRow: TCastlingRow = (CRow1, CRow8);
   
 type
   TRookSquare = array[boolean] of integer;
@@ -79,6 +84,7 @@ const
   CDTCR: TRookSquare = (H1, H8); { Départ tour côté roi.   }
   CDTCD: TRookSquare = (A1, A8); { Départ tour côté dame.  }
 
+function NewPosition: TPosition;
 function EncodePosition(const APos: string = CStartPos; const AChess960: boolean = FALSE): TPosition;
 function DecodePosition(const APos: TPosition; const AChess960: boolean = FALSE): string;
 function SquareToCol(const ASqr: Int64): integer;
@@ -89,19 +95,19 @@ implementation
 uses
   SysUtils, Classes;
 
+{
 const
   CSideSymbol: array[boolean] of char = ('w', 'b');
-  
+}
 procedure Reinitialize(out ACastling: TCastling);
 var
   LSide: boolean;
 begin
   for LSide := CWhite to CBlack do
-    with ACastling[LSide] do
-    begin
-      HRook := CNil;
-      ARook := CNil;
-    end;
+  begin
+    ACastling[LSide].HRook := CNil;
+    ACastling[LSide].ARook := CNil;
+  end;
 end;
 
 function DecodeTraditionalCastlingString(const ACastlingStr: string): TCastling;
@@ -115,16 +121,22 @@ end;
 
 function DecodeCastlingString(const ACastlingStr: string; const AWhiteKingCol, ABlackKingCol: integer): TCastling;
 const
+{
   CChar: array[boolean, 0..7] of char = (
     ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'),
     ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
   );
+}
+  CColumnsForWhite = 'ABCDEFGH';
+  CColumnsForBlack = 'abcdefgh';
 var
-  c1, c2: char;
+ {c1, c2: char;
   b: boolean;
-  a: byte;
+  a: byte;}
+  LCol: integer;
 begin
   Reinitialize(result);
+  {
   for b := CWhite to CBlack do
   begin
     a := Ord(CChar[b, 0]);
@@ -132,6 +144,11 @@ begin
     for c2 := CChar[b, 7] downto Succ(c1) do if Pos(c2, ACastlingStr) > 0 then result[b].HRook := Ord(c2) - a;
     for c2 := CChar[b, 0] to Pred(c1) do if Pos(c2, ACastlingStr) > 0 then result[b].ARook := Ord(c2) - a;
   end;
+  }
+  for LCol := 7 downto AWhiteKingCol + 1 do if Pos(Copy(CColumnsForWhite, LCol, 1), ACastlingStr) > -1 then begin result[CWhite].HRook := LCol; Break; end;
+  for LCol := 0     to AWhiteKingCol - 1 do if Pos(Copy(CColumnsForWhite, LCol, 1), ACastlingStr) > -1 then begin result[CWhite].HRook := LCol; Break; end;
+  for LCol := 7 downto ABlackKingCol + 1 do if Pos(Copy(CColumnsForBlack, LCol, 1), ACastlingStr) > -1 then begin result[CBlack].HRook := LCol; Break; end;
+  for LCol := 0     to ABlackKingCol - 1 do if Pos(Copy(CColumnsForBlack, LCol, 1), ACastlingStr) > -1 then begin result[CBlack].HRook := LCol; Break; end;
 end;
 
 function EncodeCastlingString(const ACastling: TCastling; const AChess960: boolean = FALSE): string;
@@ -139,20 +156,16 @@ begin
   result := '';
   if AChess960 then
   begin
-    with ACastling[CWhite] do begin
-      if (HRook >= 0) and (HRook <= 7) then result := Chr(HRook + Ord('A'));
-      if (ARook >= 0) and (ARook <= 7) then result := Concat(result, Chr(ARook + Ord('A')));
-    end;
-    with ACastling[CBlack] do begin
-      if (HRook >= 0) and (HRook <= 7) then result := Concat(result, Chr(HRook + Ord('a')));
-      if (ARook >= 0) and (ARook <= 7) then result := Concat(result, Chr(ARook + Ord('a')));
-    end;
+    if (ACastling[CWhite].HRook >= 0) and (ACastling[CWhite].HRook <= 7) then result := result + Chr(ACastling[CWhite].HRook + Ord('A'));
+    if (ACastling[CWhite].ARook >= 0) and (ACastling[CWhite].ARook <= 7) then result := result + Chr(ACastling[CWhite].ARook + Ord('A'));
+    if (ACastling[CBlack].HRook >= 0) and (ACastling[CBlack].HRook <= 7) then result := result + Chr(ACastling[CBlack].HRook + Ord('a'));
+    if (ACastling[CBlack].ARook >= 0) and (ACastling[CBlack].ARook <= 7) then result := result + Chr(ACastling[CBlack].ARook + Ord('a'));
   end else
   begin
-    if ACastling[CWhite].HRook <> CNil then result := 'K';
-    if ACastling[CWhite].ARook <> CNil then result := Concat(result, 'Q');
-    if ACastling[CBlack].HRook <> CNil then result := Concat(result, 'k');
-    if ACastling[CBlack].ARook <> CNil then result := Concat(result, 'q');
+    if ACastling[CWhite].HRook <> CNil then result := result + 'K';
+    if ACastling[CWhite].ARook <> CNil then result := result + 'Q';
+    if ACastling[CBlack].HRook <> CNil then result := result + 'k';
+    if ACastling[CBlack].ARook <> CNil then result := result + 'q';
   end;
   if result = '' then
     result := '-';
@@ -170,73 +183,98 @@ begin
     else
       Inc(x);
 end;
-  
+
+function NewPosition: TPosition;
+begin
+  result.Pieces[CWhite] := 0;
+  result.Pieces[CBlack] := 0;
+  result.Pawns := 0;
+  result.Rooks := 0;
+  result.Knights := 0;
+  result.Bishops := 0;
+  result.Queens := 0;
+  result.Kings := 0;
+  result.Side := FALSE;
+  result.Castling[CWhite].HRook := CNil;
+  result.Castling[CWhite].ARook := CNil;
+  result.Castling[CBlack].HRook := CNil;
+  result.Castling[CBlack].ARook := CNil;
+  result.EnPassant := CNil;
+  result.KingSquare[CWhite] := 0;
+  result.KingSquare[CBlack] := 0;
+end;
+
 function EncodePosition(const APos: string; const AChess960: boolean): TPosition;
+
+  function Split(const AStr: string): string;
+  var
+    i: integer;
+  begin
+    result := AStr;
+    for i := 0 to Length(AStr) do
+     {if Copy(AStr, i, 1) = ' ' then
+        result[i] := Chr(10);}
+      if AStr[i] = 32 then
+        result[i] := 10;
+  end;
+
 const
   CEpdCount = 4;
   CFenCount = 6;
 var
   x, y, i: integer;
-  c: char;
+  c: string;
   LSqr: Int64;
+  LList: TStringList;
 begin
-  result := CNewPos;
-  with TStringList.Create, result do
+  result := NewPosition();
+  LList := TStringList.Create;
+  LList.Text := Split(APos);
+ {Assert(LList.Count in [CEpdCount, CFenCount]);}
+  x := 0;
+  y := 7;
+  i := 0;
+  while i < Length(LList[0]) do
   begin
-    DelimitedText := APos;
-    Assert(Count in [CEpdCount, CFenCount]);
+    c := Copy(LList[0], i, 1);
+    if c = '/' then
     begin
       x := 0;
-      y := 7;
-      i := 1;
-      while i <= Length(Strings[0]) do
-      begin
-        c := Strings[0][i];
-        case c of
-          '/':
-            begin
-              x := 0;
-              Dec(y);
-            end;
-          '1'..'8':
-            while c > '0' do
-            begin
-              Inc(x);
-              Dec(c);
-            end;
-        else
+      Dec(y);
+    end else
+    if Pos(c, '12345678') > -1 then
+    begin
+      x := x + StrToInt(c);
+    end else
+    begin
+      LSqr := CCoordToSquare[x, y];
+      SwitchOn(result.Pieces[Pos(c, 'prnbqk') > -1], LSqr);
+     {case UpCase(c) of
+        'P': SwitchOn(Pawns, LSqr);
+        'R': SwitchOn(Rooks, LSqr);
+        'N': SwitchOn(Knights, LSqr);
+        'B': SwitchOn(Bishops, LSqr); 
+        'Q': SwitchOn(Queens, LSqr);
+        'K':
           begin
-            LSqr := CCoordToSquare[x, y];
-            SwitchOn(Pieces[c in ['a'..'z']], LSqr);
-            case UpCase(c) of
-              'P': SwitchOn(Pawns, LSqr);
-              'R': SwitchOn(Rooks, LSqr);
-              'N': SwitchOn(Knights, LSqr);
-              'B': SwitchOn(Bishops, LSqr); 
-              'Q': SwitchOn(Queens, LSqr);
-              'K':
-                begin
-                  SwitchOn(Kings, LSqr);
-                  KingSquare[c = 'k'] := LSqr;
-                end;
-            end;
-            Inc(x);
+            SwitchOn(Kings, LSqr);
+            KingSquare[c = 'k'] := LSqr;
           end;
-        end;
-        Inc(i);
-      end;
-      Side := Strings[1] = CSideSymbol[CBlack];
-      if AChess960 then
-        Castling := DecodeCastlingString(Strings[2], SquareToCol(KingSquare[CWhite]), SquareToCol(KingSquare[CBlack]))
-      else
-        Castling := DecodeTraditionalCastlingString(Strings[2]);
-      if Strings[3] = '-' then
-        EnPassant := CNil
-      else
-        EnPassant := DecodeSquareName(Strings[3]);
+      end;}
+      x := x + 1;
     end;
-    Free;
+    
+    i := i + 1;
   end;
+  result.Side := LList[1] = {CSideSymbol[CBlack]}'b';
+  if AChess960 then
+    result.Castling := DecodeCastlingString(LList[2], SquareToCol(result.KingSquare[CWhite]), SquareToCol(result.KingSquare[CBlack]))
+  else
+    result.Castling := DecodeTraditionalCastlingString(LList[2]);
+  if LList[3] = '-' then
+    result.EnPassant := CNil
+  else
+    result.EnPassant := DecodeSquareName(LList[3]);
 end;
 
 function DecodePosition(const APos: TPosition; const AChess960: boolean): string;
@@ -246,29 +284,27 @@ var
   LEnPassantStr: string;
 begin
   result := '';
-  with APos do
-  begin
     x := 0;
     y := 7;
     while y >= 0 do
     begin
-      if (Pieces[FALSE] or Pieces[TRUE]) and CCoordToSquare[x, y] = 0 then
+      if (APos.Pieces[FALSE] or APos.Pieces[TRUE]) and CCoordToSquare[x, y] = 0 then
       begin
         n := 0;
-        while (x + n <= 7) and ((Pieces[FALSE] or Pieces[TRUE]) and CCoordToSquare[x + n, y] = 0) do
+        while (x + n <= 7) and ((APos.Pieces[FALSE] or APos.Pieces[TRUE]) and CCoordToSquare[x + n, y] = 0) do
           Inc(n);
         result := Concat(result, IntToStr(n));
         Inc(x, n);
       end else
       begin
         c := '?';
-        if IsOn(Pawns,        CCoordToSquare[x, y]) then c := 'P' else
-        if IsOn(Rooks,        CCoordToSquare[x, y]) then c := 'R' else
-        if IsOn(Knights,      CCoordToSquare[x, y]) then c := 'N' else
-        if IsOn(Bishops,      CCoordToSquare[x, y]) then c := 'B' else
-        if IsOn(Queens,       CCoordToSquare[x, y]) then c := 'Q' else
-        if IsOn(Kings,        CCoordToSquare[x, y]) then c := 'K';
-        if IsOn(Pieces[TRUE], CCoordToSquare[x, y]) then
+        if IsOn(APos.Pawns,        CCoordToSquare[x, y]) then c := 'P' else
+        if IsOn(APos.Rooks,        CCoordToSquare[x, y]) then c := 'R' else
+        if IsOn(APos.Knights,      CCoordToSquare[x, y]) then c := 'N' else
+        if IsOn(APos.Bishops,      CCoordToSquare[x, y]) then c := 'B' else
+        if IsOn(APos.Queens,       CCoordToSquare[x, y]) then c := 'Q' else
+        if IsOn(APos.Kings,        CCoordToSquare[x, y]) then c := 'K';
+        if IsOn(APos.Pieces[TRUE], CCoordToSquare[x, y]) then
           c := Chr(Ord(c) + 32);
         result := Concat(result, c);
         Inc(x);
@@ -281,20 +317,19 @@ begin
         Dec(y);
       end;
     end;
-    if EnPassant = CNil then
+    if APos.EnPassant = CNil then
       LEnPassantStr := '-'
     else
-      LEnPassantStr := CSquareNames[EnPassant];
+      LEnPassantStr := CSquareNames[APos.EnPassant];
     result := Format(
       '%s %s %s %s',
       [
         result,
         CSideSymbol[Side],
-        EncodeCastlingString(Castling, AChess960),
+        EncodeCastlingString(APos.Castling, AChess960),
         LEnPassantStr
       ]
     );
-  end;
 end;
 
 function PosToText(const APos: TPosition): string;

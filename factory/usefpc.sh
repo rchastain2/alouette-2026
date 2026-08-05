@@ -1,2 +1,0 @@
-
-cp -fv MakefileFPC Makefile
