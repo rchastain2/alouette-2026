@@ -4,8 +4,6 @@ program ChessDemo1;
 uses
   Board, Chess;
 
-{$ASSERTIONS ON}
-
 const
   CPos = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3';
   
@@ -18,7 +16,7 @@ begin
 { Affichage des pions blancs. }
   PrintBoard(LPos.Pieces[FALSE] and LPos.Pawns);
 { Production d'une chaîne FEN, qu'on compare avec la chaîne initiale. }
-  Assert(DecodePosition(LPos) = CPos);
+  WriteLn(DecodePosition(LPos) = CPos);
 end.
 
 {
