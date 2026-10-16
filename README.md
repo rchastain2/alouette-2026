@@ -1,3 +1,3 @@
-# Alouette 2026
+# Alouette-B
 
-Rewriting [Alouette](https://codeberg.org/rchastain/alouette) chess program, using [Blaise](https://github.com/graemeg/blaise) compiler.
+[Alouette](https://codeberg.org/rchastain/alouette) chess program rewritten for the [Blaise](https://github.com/graemeg/blaise) compiler.
