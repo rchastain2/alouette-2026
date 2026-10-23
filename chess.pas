@@ -65,6 +65,7 @@ const
   CDTCD: TRookSquare = (A1, A8); { Départ tour côté dame.  }
 
 function NewPosition: TPosition;
+function IsValidFen(const AFen: string): boolean;
 function EncodePosition(const APos: string = CStartPos; const AChess960: boolean = FALSE): TPosition;
 function DecodePosition(const APos: TPosition; const AChess960: boolean = FALSE): string;
 function SquareToCol(const ASqr: Int64): integer;
@@ -187,6 +188,56 @@ begin
   result.KingSquare[CBlack] := 0;
 end;
 
+function IsValidFen(const AFen: string): boolean;
+var
+  LFields: TStringList;
+  LBoard, LEnPassant: string;
+  x, y, i: integer;
+  c: integer;
+begin
+  result := FALSE;
+  LFields := TStringList.Create;
+  try
+    LFields.Text := ReplaceAll(AFen, Chr(32), Chr(10));
+    if (LFields.Count <> 4) and (LFields.Count <> 6) then
+      Exit;
+    LBoard := LFields[0];
+    x := 0;
+    y := 7;
+    i := 0;
+    while i < Length(LBoard) do
+    begin
+      c := OrdAt(LBoard, i);
+      if c = Ord('/') then
+      begin
+        if (x <> 8) or (y = 0) then
+          Exit;
+        x := 0;
+        y := y - 1;
+      end else
+      if (c >= Ord('1')) and (c <= Ord('8')) then
+        x := x + c - Ord('0')
+      else
+      if Pos(Chr(c), 'PRNBQKprnbqk') > -1 then
+        x := x + 1
+      else
+        Exit;
+      i := i + 1;
+    end;
+    if (x <> 8) or (y <> 0) then
+      Exit;
+    if (LFields[1] <> 'w') and (LFields[1] <> 'b') then
+      Exit;
+    LEnPassant := LFields[3];
+    result := (LEnPassant = '-')
+      or (Length(LEnPassant) = 2)
+      and (OrdAt(LEnPassant, 0) >= Ord('a')) and (OrdAt(LEnPassant, 0) <= Ord('h'))
+      and (OrdAt(LEnPassant, 1) >= Ord('1')) and (OrdAt(LEnPassant, 1) <= Ord('8'));
+  finally
+    LFields.Free();
+  end;
+end;
+
 function EncodePosition(const APos: string; const AChess960: boolean): TPosition;
 const
   CEpdCount = 4;
@@ -199,52 +250,56 @@ var
 begin
   result := NewPosition();
   LList := TStringList.Create;
-  LList.Text := ReplaceAll(APos, Chr(32), Chr(10));
- {Assert(LList.Count in [CEpdCount, CFenCount]);}
-  x := 0;
-  y := 7;
-  i := 0;
-  while i < Length(LList[0]) do
-  begin
-    c := OrdAt(LList[0], i);
-    if c = Ord('/') then
+  try
+    LList.Text := ReplaceAll(APos, Chr(32), Chr(10));
+    Assert((LList.Count = CEpdCount) or (LList.Count = CFenCount));
+    x := 0;
+    y := 7;
+    i := 0;
+    while i < Length(LList[0]) do
     begin
-      x := 0;
-      y := y - 1;
-    end else
-    if (c >= Ord('1')) and (c <= Ord('8')) then
-    begin
-      x := x + c - Ord('0');
-    end else
-    begin
-      LSqr := CCoordToSquare[x, y];
-      SwitchOn(result.Pieces[(c = Ord('p')) or (c = Ord('r')) or (c = Ord('n')) or (c = Ord('b')) or (c = Ord('q')) or (c = Ord('k'))], LSqr);
-      
-      if (c = Ord('p')) or (c = Ord('P')) then SwitchOn(result.Pawns,   LSqr) else
-      if (c = Ord('r')) or (c = Ord('R')) then SwitchOn(result.Rooks,   LSqr) else
-      if (c = Ord('n')) or (c = Ord('N')) then SwitchOn(result.Knights, LSqr) else
-      if (c = Ord('b')) or (c = Ord('B')) then SwitchOn(result.Bishops, LSqr) else
-      if (c = Ord('q')) or (c = Ord('Q')) then SwitchOn(result.Queens,  LSqr) else
-      if (c = Ord('k')) or (c = Ord('K')) then
+      c := OrdAt(LList[0], i);
+      if c = Ord('/') then
       begin
-        SwitchOn(result.Kings, LSqr);
-        result.KingSquare[c = Ord('k')] := LSqr;
+        x := 0;
+        y := y - 1;
+      end else
+      if (c >= Ord('1')) and (c <= Ord('8')) then
+      begin
+        x := x + c - Ord('0');
+      end else
+      begin
+        LSqr := CCoordToSquare[x, y];
+        SwitchOn(result.Pieces[(c = Ord('p')) or (c = Ord('r')) or (c = Ord('n')) or (c = Ord('b')) or (c = Ord('q')) or (c = Ord('k'))], LSqr);
+
+        if (c = Ord('p')) or (c = Ord('P')) then SwitchOn(result.Pawns,   LSqr) else
+        if (c = Ord('r')) or (c = Ord('R')) then SwitchOn(result.Rooks,   LSqr) else
+        if (c = Ord('n')) or (c = Ord('N')) then SwitchOn(result.Knights, LSqr) else
+        if (c = Ord('b')) or (c = Ord('B')) then SwitchOn(result.Bishops, LSqr) else
+        if (c = Ord('q')) or (c = Ord('Q')) then SwitchOn(result.Queens,  LSqr) else
+        if (c = Ord('k')) or (c = Ord('K')) then
+        begin
+          SwitchOn(result.Kings, LSqr);
+          result.KingSquare[c = Ord('k')] := LSqr;
+        end;
+
+        x := x + 1;
       end;
-      
-      x := x + 1;
+
+      i := i + 1;
     end;
-    
-    i := i + 1;
+    result.Side := LList[1] = {CSideSymbol[CBlack]}'b';
+    if AChess960 then
+      result.Castling := DecodeCastlingString(LList[2], SquareToCol(result.KingSquare[CWhite]), SquareToCol(result.KingSquare[CBlack]))
+    else
+      result.Castling := DecodeTraditionalCastlingString(LList[2]);
+    if LList[3] = '-' then
+      result.EnPassant := CNil
+    else
+      result.EnPassant := DecodeSquareName(LList[3]);
+  finally
+    LList.Free();
   end;
-  result.Side := LList[1] = {CSideSymbol[CBlack]}'b';
-  if AChess960 then
-    result.Castling := DecodeCastlingString(LList[2], SquareToCol(result.KingSquare[CWhite]), SquareToCol(result.KingSquare[CBlack]))
-  else
-    result.Castling := DecodeTraditionalCastlingString(LList[2]);
-  if LList[3] = '-' then
-    result.EnPassant := CNil
-  else
-    result.EnPassant := DecodeSquareName(LList[3]);
 end;
 
 function DecodePosition(const APos: TPosition; const AChess960: boolean): string;
