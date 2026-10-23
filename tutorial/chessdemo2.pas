@@ -1,4 +1,3 @@
-
 program ChessDemo2;
 
 uses
@@ -10,19 +9,20 @@ const
 var
   i: integer;
   LPos: TPosition;
+  LList: TStringList;
   
 begin
-  with TStringList.Create do
+  LList := TStringList.Create;
   try
-    LoadFromFile(CFileName);
+    LList.LoadFromFile(CFileName);
     for i := 0 to 959 do
     begin
-      LPos := EncodePosition(strings[i], TRUE);
-      if Concat(DecodePosition(LPos, TRUE), ' 0 1') <> strings[i] then
+      LPos := EncodePosition(LList[i], TRUE);
+      if DecodePosition(LPos, TRUE) + ' 0 1' <> LList[i] then
         WriteLn('Unexpected result (', i, ')');
     end;
     WriteLn('Done');
   finally
-    Free;
+    LList.Free();
   end;
 end.

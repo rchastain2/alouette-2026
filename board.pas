@@ -19,6 +19,9 @@ procedure PrintBoard(const ABrd: Int64);
 {** Convertit une chaîne de la forme "a1" en un nombre de 0 à 63. }
 function DecodeSquareName(const AName: string): integer;
 
+{** Lève une exception si la condition est fausse. }
+procedure Assert(const ACondition: boolean; const AMessage: string = 'Assertion failed');
+
 implementation
 
 uses
@@ -59,12 +62,18 @@ begin
   WriteLn(BoardToStr(ABrd));
 end;
 
+procedure Assert(const ACondition: boolean; const AMessage: string);
+begin
+  if not ACondition then
+    raise Exception.Create(AMessage);
+end;
+
 function DecodeSquareName(const AName: string): integer;
 begin
- {Assert((Length(AName) = 2));
-  Assert((AName[1] in ['a'..'h']));
-  Assert((AName[2] in ['1'..'8']));}
-  result := 8 * (Ord(AName[2]) - Ord('1')) + (Ord(AName[1]) - Ord('a'));
+  Assert(Length(AName) = 2);
+  Assert((Ord(AName[0]) >= Ord('a')) and (Ord(AName[0]) <= Ord('h')));
+  Assert((Ord(AName[1]) >= Ord('1')) and (Ord(AName[1]) <= Ord('8')));
+  result := 8 * (Ord(AName[1]) - Ord('1')) + (Ord(AName[0]) - Ord('a'));
 end;
 
 end.

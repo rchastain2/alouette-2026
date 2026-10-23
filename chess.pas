@@ -86,15 +86,20 @@ begin
   end;
 end;
 
+{ Variable locale au lieu de result : contournement d'un bogue de Blaise (voir bug/bug1). }
 function DecodeTraditionalCastlingString(const ACastlingStr: string): TCastling;
+var
+  LCastling: TCastling;
 begin
-  Reinitialize(result);
-  if Pos('K', ACastlingStr) >= 0 then result[CWhite].HRook := 7;
-  if Pos('Q', ACastlingStr) >= 0 then result[CWhite].ARook := 0;
-  if Pos('k', ACastlingStr) >= 0 then result[CBlack].HRook := 7;
-  if Pos('q', ACastlingStr) >= 0 then result[CBlack].ARook := 0;
+  Reinitialize(LCastling);
+  if Pos('K', ACastlingStr) >= 0 then LCastling[CWhite].HRook := 7;
+  if Pos('Q', ACastlingStr) >= 0 then LCastling[CWhite].ARook := 0;
+  if Pos('k', ACastlingStr) >= 0 then LCastling[CBlack].HRook := 7;
+  if Pos('q', ACastlingStr) >= 0 then LCastling[CBlack].ARook := 0;
+  result := LCastling;
 end;
 
+{ Variable locale au lieu de result : contournement d'un bogue de Blaise (voir bug/bug1). }
 function DecodeCastlingString(const ACastlingStr: string; const AWhiteKingCol, ABlackKingCol: integer): TCastling;
 const
 {
@@ -110,8 +115,9 @@ var
   b: boolean;
   a: byte;}
   LCol: integer;
+  LCastling: TCastling;
 begin
-  Reinitialize(result);
+  Reinitialize(LCastling);
   {
   for b := CWhite to CBlack do
   begin
@@ -121,10 +127,11 @@ begin
     for c2 := CChar[b, 0] to Pred(c1) do if Pos(c2, ACastlingStr) > 0 then result[b].ARook := Ord(c2) - a;
   end;
   }
-  for LCol := 7 downto AWhiteKingCol + 1 do if Pos(Copy(CColumnsForWhite, LCol, 1), ACastlingStr) > -1 then begin result[CWhite].HRook := LCol; Break; end;
-  for LCol := 0     to AWhiteKingCol - 1 do if Pos(Copy(CColumnsForWhite, LCol, 1), ACastlingStr) > -1 then begin result[CWhite].HRook := LCol; Break; end;
-  for LCol := 7 downto ABlackKingCol + 1 do if Pos(Copy(CColumnsForBlack, LCol, 1), ACastlingStr) > -1 then begin result[CBlack].HRook := LCol; Break; end;
-  for LCol := 0     to ABlackKingCol - 1 do if Pos(Copy(CColumnsForBlack, LCol, 1), ACastlingStr) > -1 then begin result[CBlack].HRook := LCol; Break; end;
+  for LCol := 7 downto AWhiteKingCol + 1 do if Pos(Copy(CColumnsForWhite, LCol, 1), ACastlingStr) > -1 then begin LCastling[CWhite].HRook := LCol; Break; end;
+  for LCol := 0     to AWhiteKingCol - 1 do if Pos(Copy(CColumnsForWhite, LCol, 1), ACastlingStr) > -1 then begin LCastling[CWhite].ARook := LCol; Break; end;
+  for LCol := 7 downto ABlackKingCol + 1 do if Pos(Copy(CColumnsForBlack, LCol, 1), ACastlingStr) > -1 then begin LCastling[CBlack].HRook := LCol; Break; end;
+  for LCol := 0     to ABlackKingCol - 1 do if Pos(Copy(CColumnsForBlack, LCol, 1), ACastlingStr) > -1 then begin LCastling[CBlack].ARook := LCol; Break; end;
+  result := LCastling;
 end;
 
 function EncodeCastlingString(const ACastling: TCastling; const AChess960: boolean = FALSE): string;
