@@ -54,6 +54,8 @@ function MoveType(const AMove: TMove): TMoveTypeSet;
 function StartIndex(const AMove: TMove): integer;
 {** Nombre de cases allumées dans un damier. }
 function BitCount(const ABrd: Int64): integer;
+{** Index de la première case allumée dans un damier, ou -1 si le damier est vide. }
+function BitScanForward(const ABrd: Int64): integer;
 
 {** Lève une exception si la condition est fausse. }
 procedure Assert(const ACondition: boolean; const AMessage: string = 'Assertion failed');
@@ -246,6 +248,14 @@ begin
   x := (x and $0000FFFF0000FFFF) + ((x shr 16) and $0000FFFF0000FFFF);
   x := (x and $00000000FFFFFFFF) + ((x shr 32) and $00000000FFFFFFFF);
   result := x;
+end;
+
+function BitScanForward(const ABrd: Int64): integer;
+begin
+  if ABrd = 0 then
+    result := -1
+  else
+    result := BitCount((ABrd and -ABrd) - 1);
 end;
 
 end.
