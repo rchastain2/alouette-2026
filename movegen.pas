@@ -7,8 +7,9 @@ unit MoveGen;
 
 interface
 
+{ BitAsm dans la partie interface, pour masquer BitCount et BitScanForward de Board : contournement d'un bogue de Blaise (voir bug/bug6). }
 uses
-  ChessTypes, Board, Chess;
+  ChessTypes, Board, Chess{$IFDEF BITASM}, BitAsm{$ENDIF};
 
 {** Génération des coups. }
 function GenerateMoves(const APos: TPosition; var AList: array of TMove; out ACount: integer; const AQuick: boolean = FALSE; const ExtraPawnMoves: boolean = FALSE): Int64; overload;

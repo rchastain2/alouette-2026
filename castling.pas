@@ -7,8 +7,9 @@ unit Castling;
 
 interface
 
+{ BitAsm dans la partie interface, pour masquer BitCount et BitScanForward de Board : contournement d'un bogue de Blaise (voir bug/bug6). }
 uses
-  ChessTypes, Board, Chess;
+  ChessTypes, Board, Chess{$IFDEF BITASM}, BitAsm{$ENDIF};
 
 procedure GenerateCastling(const APos: TPosition; var AList: array of TMove; var ACount: integer);
 
