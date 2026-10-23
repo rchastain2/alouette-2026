@@ -57,6 +57,15 @@ function BitCount(const ABrd: Int64): integer;
 {** Index de la première case allumée dans un damier, ou -1 si le damier est vide. }
 function BitScanForward(const ABrd: Int64): integer;
 
+{** Pour savoir si une case, désignée par son index, est allumée dans un damier. }
+function IsOnIdx(const ABrd: Int64; const AIdx: integer): boolean;
+{** Allume une case désignée par son index. }
+procedure SwitchOnIdx(var ABrd: Int64; const AIdx: integer);
+{** Éteint une case désignée par son index. }
+procedure SwitchOffIdx(var ABrd: Int64; const AIdx: integer);
+{** Déplace une pièce dans deux damiers à la fois : celui du type de pièce et celui de la couleur. }
+procedure MovePieceIdx(var AType, ASide: Int64; const AFr, ATo: integer; const APreserve: boolean = FALSE);
+
 {** Lève une exception si la condition est fausse. }
 procedure Assert(const ACondition: boolean; const AMessage: string = 'Assertion failed');
 
@@ -256,6 +265,33 @@ begin
     result := -1
   else
     result := BitCount((ABrd and -ABrd) - 1);
+end;
+
+function IsOnIdx(const ABrd: Int64; const AIdx: integer): boolean;
+begin
+  Assert(CIndexToSquare[AIdx] <> 0);
+  result := (ABrd and CIndexToSquare[AIdx]) = CIndexToSquare[AIdx];
+end;
+
+procedure SwitchOnIdx(var ABrd: Int64; const AIdx: integer);
+begin
+  ABrd := ABrd or CIndexToSquare[AIdx];
+end;
+
+procedure SwitchOffIdx(var ABrd: Int64; const AIdx: integer);
+begin
+  ABrd := ABrd and not CIndexToSquare[AIdx];
+end;
+
+procedure MovePieceIdx(var AType, ASide: Int64; const AFr, ATo: integer; const APreserve: boolean);
+begin
+  Assert((AFr >= 0) and (AFr <= 63));
+  Assert((ATo >= 0) and (ATo <= 63));
+  AType := AType and not CIndexToSquare[AFr] or CIndexToSquare[ATo];
+  if APreserve then
+    ASide := ASide or CIndexToSquare[ATo]
+  else
+    ASide := ASide and not CIndexToSquare[AFr] or CIndexToSquare[ATo];
 end;
 
 end.
